@@ -1,0 +1,38 @@
+NativeQcomTsens
+Copyright (c) 2026, UniXNU contributors.
+
+The C++ implementation in this directory is original code licensed under
+BSD-2-Clause-Patent. No vendor driver source is incorporated into this module.
+The following sources were consulted for hardware register meanings and board
+configuration. Their licenses remain those stated in their respective sources.
+
+1. Samsung SM7325 vendor kernel, drivers/thermal/tsens2xxx.c
+   https://github.com/Bush-cat/android_kernel_samsung_sm7325/blob/HEAD/drivers/thermal/tsens2xxx.c
+   Local research path:
+   references/android_kernel_samsung_sm7325/drivers/thermal/tsens2xxx.c
+   This reference bears GPL-2.0-only and Linux Foundation copyright notices.
+   Facts used: TSENS enable and sensor-enable bits, first-round completion,
+   sensor status offsets, validity bit, signed temperature encoding and scale,
+   and the tsens26xx hardware family selection.
+
+2. Samsung SM7325 vendor kernel, drivers/thermal/tsens.h and msm-tsens.c
+   https://github.com/Bush-cat/android_kernel_samsung_sm7325/blob/HEAD/drivers/thermal/tsens.h
+   https://github.com/Bush-cat/android_kernel_samsung_sm7325/blob/HEAD/drivers/thermal/msm-tsens.c
+   Local research paths are under the same references directory.
+   Facts used: the maximum of 16 hardware sensors, direct hardware sensor IDs,
+   and calibration-resource handling. The selected SM-T733 DT has no TSENS
+   EEPROM calibration resource, and the tsens2xxx operations have no software
+   calibration callback.
+
+3. SM-T733 firmware T733ZCS9DYE1 selected stock device tree
+   Device-local ignored input:
+   .cache/firmware/device-tree/T733ZCS9DYE1/selected-stock.dts
+   The tsens@c222000 and tsens@c223000 nodes identify the actual SROT/TM
+   resources and qcom,tsens26xx compatibility. CPU thermal zones and cooling
+   maps inform the separate T733 board policy; no stock firmware binary or
+   device-tree dump is distributed in this module.
+
+4. Samsung SM7325 vendor kernel, drivers/thermal/qcom/cpu_voltage_cooling.c
+   https://github.com/Bush-cat/android_kernel_samsung_sm7325/blob/HEAD/drivers/thermal/qcom/cpu_voltage_cooling.c
+   This reference explains the shared CPU voltage cooling device used by the
+   board's thermal maps. The module itself implements no cooling governor.
